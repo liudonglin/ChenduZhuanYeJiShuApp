@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -92,29 +93,42 @@ namespace ChenduZhuanYeJiShuApp
             var document = new HtmlParser().Parse(pageHtmlStr);
             var courseDetailDoms = document.QuerySelectorAll("div.memu-in ul li");
 
-            this._vm.CourseDetailInfos.Clear();
-
-            foreach (var item in courseDetailDoms)
+            this.Dispatcher.Invoke(new Action(()=> 
             {
-                CourseDetailInfo detailInfo = new CourseDetailInfo();
-                var aDom = item.QuerySelector("a");
-                detailInfo.Name = aDom.TextContent.Trim();
-                detailInfo.Url = aDom.Attributes["href"].Value;
+                this._vm.CourseDetailInfos.Clear();
 
-                detailInfo.Guid = Guid.NewGuid().ToString();
-                detailInfo.ParentGuid = curCourse.Guid;
+                foreach (var item in courseDetailDoms)
+                {
+                    CourseDetailInfo detailInfo = new CourseDetailInfo();
+                    var aDom = item.QuerySelector("a");
+                    detailInfo.Name = aDom.TextContent.Trim();
+                    detailInfo.Url = aDom.Attributes["href"].Value;
 
-                detailInfo.Status = item.QuerySelector("span").TextContent.Trim(); ;
-                this._vm.CourseDetailInfos.Add(detailInfo);
-            }
+                    detailInfo.Guid = Guid.NewGuid().ToString();
+                    detailInfo.ParentGuid = curCourse.Guid;
+
+                    detailInfo.Status = item.QuerySelector("span").TextContent.Trim(); ;
+                    this._vm.CourseDetailInfos.Add(detailInfo);
+                }
+            }));
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
+            button.IsEnabled = false;
             string guid = button.Tag.ToString();
             var curCourseDetail = this._vm.CourseDetailInfos.FirstOrDefault(x => x.Guid.Equals(guid));
+            
+            Task.Factory.StartNew(() =>
+            {
+                StudentCourse(curCourseDetail);
+                button.IsEnabled = true;
+            });
+        }
 
+        private void StudentCourse(CourseDetailInfo curCourseDetail)
+        {
             var playFrameUrl = "http://" + HttpUtility.HOST + curCourseDetail.Url;
             var pageHtmlStr = HttpUtility.HttpGet(playFrameUrl, Encoding.UTF8);
             var document = new HtmlParser().Parse(pageHtmlStr);
