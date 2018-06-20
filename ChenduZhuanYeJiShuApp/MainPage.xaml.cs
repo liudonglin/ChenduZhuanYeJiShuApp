@@ -119,15 +119,25 @@ namespace ChenduZhuanYeJiShuApp
             button.IsEnabled = false;
             string guid = button.Tag.ToString();
             var curCourseDetail = this._vm.CourseDetailInfos.FirstOrDefault(x => x.Guid.Equals(guid));
-            
+
             Task.Factory.StartNew(() =>
             {
-                StudentCourse(curCourseDetail);
-                button.IsEnabled = true;
+                try
+                {
+                    StudyCourse(curCourseDetail);
+                }
+                catch
+                {
+                    MessageBox.Show("发生错误请稍后重试！");
+                }
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    button.IsEnabled = true;
+                }));
             });
         }
 
-        private void StudentCourse(CourseDetailInfo curCourseDetail)
+        private void StudyCourse(CourseDetailInfo curCourseDetail)
         {
             var playFrameUrl = "http://" + HttpUtility.HOST + curCourseDetail.Url;
             var pageHtmlStr = HttpUtility.HttpGet(playFrameUrl, Encoding.UTF8);
@@ -168,6 +178,15 @@ namespace ChenduZhuanYeJiShuApp
 
             var curCourse = this._vm.CourseInfos.FirstOrDefault(x => x.Guid.Equals(curCourseDetail.ParentGuid));
             LoadCourseDetailInfos(curCourse);
+
+            parameters.Clear();
+            parameters.Add("recordId", recordId);
+            parameters.Add("time", "100");
+            parameters.Add("studyCode", studyCode);
+            parameters.Add("viewTime", "100");
+
+            var endPalyUrl = "http://videoadmin.chinahrt.com.cn/videoPlay/endPlay";
+            HttpUtility.HttpGet(endPalyUrl, null, parameters);
         }
     }
 }

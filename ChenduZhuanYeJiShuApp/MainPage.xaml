@@ -4,10 +4,15 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ChenduZhuanYeJiShuApp"
+      xmlns:converters="clr-namespace:ChenduZhuanYeJiShuApp.Converters"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="MainPage">
 
+    <Page.Resources>
+        <converters:StatusConverter x:Key="StatusConverter" />
+    </Page.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"></RowDefinition>
@@ -68,7 +73,7 @@
                         <DataGridTemplateColumn Header="操作" Width="60">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Content="学习" Width="60" Tag="{Binding Guid,Mode=OneWay}" Click="Button_Click"/>
+                                    <Button Content="学习" Width="60" Tag="{Binding Guid,Mode=OneWay}" Visibility="{Binding Status,Converter={StaticResource StatusConverter}}" Click="Button_Click"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>

@@ -18,9 +18,9 @@
             <GroupBox Header="请登录">
                 <Grid>
                     <TextBlock Width="120" Height="20" Margin="134,81,454,220" Text="账号"/>
-                    <TextBox Width="200" Height="20" Margin="299,80,289,221" Name="loginName_Txt" Text="liyan_207"/>
+                    <TextBox Width="200" Height="20" Margin="299,80,289,221" Name="loginName_Txt"/>
                     <TextBlock Width="120" Height="20" Margin="174,132,494,169" Text="密码"/>
-                    <PasswordBox Width="200" Height="20" Margin="299,132,289,169" Name="passwordTxt" Password="135798"/>
+                    <PasswordBox Width="200" Height="20" Margin="299,132,289,169" Name="passwordTxt"/>
                     <Image HorizontalAlignment="Left" Height="22" Margin="201,187,0,0" VerticalAlignment="Top" Name="valid_Image" Width="68"
                            RenderTransformOrigin="1.266,-0.264" MouseLeftButtonUp="valid_Image_MouseLeftButtonUp"/>
                     <TextBox Width="200" Height="20" Margin="299,187,289,114" Name="valid_Txt"/>
