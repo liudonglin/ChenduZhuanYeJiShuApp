@@ -20,12 +20,14 @@ namespace ChenduZhuanYeJiShuApp
     public partial class MainWindow : Window
     {
         private LoginPage _LoginPage;
+        private MainPage _MainPage;
 
         public MainWindow()
         {
             InitializeComponent();
 
             _LoginPage = new LoginPage(this);
+            _MainPage = new MainPage(this);
 
             this.Loaded += MainWindow_Loaded;
         }
@@ -38,6 +40,11 @@ namespace ChenduZhuanYeJiShuApp
         public void GoToLoginPage()
         {
             this.MainFrame.Content = this._LoginPage;
+        }
+
+        public void GoToMainPage()
+        {
+            this.MainFrame.Content = this._MainPage;
         }
     }
 }

@@ -108,6 +108,8 @@ namespace ChenduZhuanYeJiShuApp
 
             HttpUtility.AllCookie.Add(new Cookie("chinahrtPlatformId", "18", "/", HttpUtility.HOST));
             MessageBox.Show("登陆成功！");
+
+            _window.GoToMainPage();
         }
 
 

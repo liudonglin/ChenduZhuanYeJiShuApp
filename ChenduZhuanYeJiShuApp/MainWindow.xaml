@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ChenduZhuanYeJiShuApp"
-        mc:Ignorable="d"
-        Title="成都市专业技术人员培训在线" Height="600" Width="800">
+        mc:Ignorable="d" ResizeMode="NoResize"
+        Title="成都市专业技术人员培训在线" Height="600" Width="840">
     <Grid>
         <Frame Name="MainFrame" NavigationUIVisibility="Hidden"></Frame>
     </Grid>

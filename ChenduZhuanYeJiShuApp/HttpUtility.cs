@@ -45,10 +45,9 @@ namespace ChenduZhuanYeJiShuApp
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
             request.Method = "GET";
+            request.CookieContainer = AllCookie;
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-
-            var cookieStr = response.Headers["Set-Cookie"];
-
+            
             Stream myResponseStream = response.GetResponseStream();
             if (encoding == null)
             {
@@ -112,5 +111,27 @@ namespace ChenduZhuanYeJiShuApp
 
             return retString;
         }
+
+        public static byte[] HttpDownloadFile(string downloadUrl)
+        {
+            HttpWebRequest request = WebRequest.Create(downloadUrl) as HttpWebRequest;
+            //发送请求并获取相应回应数据
+            HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+            //直到request.GetResponse()程序才开始向目标网页发送Post请求
+            Stream responseStream = response.GetResponseStream();
+
+            MemoryStream stmMemory = new MemoryStream();
+            byte[] buffer = new byte[64 * 1024];
+            int i;
+            while ((i = responseStream.Read(buffer, 0, buffer.Length)) > 0)
+            {
+                stmMemory.Write(buffer, 0, i);
+            }
+            byte[] bytes = stmMemory.ToArray();
+            stmMemory.Close();
+            
+            return bytes;
+        }
+
     }
 }
